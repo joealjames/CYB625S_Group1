@@ -1,22 +1,46 @@
-# Computer File Inventory Script
+# Computer File Inventory Script Group 1
+# Mashreef Chowdhury, Brian Fitzgerald, Devanie Gajadar, Joeal James, Wali Sheikh, Oscar Xu
+
+#Check if User is in Admin, if not attempt to relaunch with Admin perms
+If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator"))
+    {Start-Process PowerShell.exe -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File `"{0}`"" -f $PSCommandPath) -Verb RunAs
+    Exit}
+    $Host.UI.RawUI.WindowTitle = $myInvocation.MyCommand.Definition + " (Administrator)"
+    $Host.UI.RawUI.BackgroundColor = "Black"
+	$Host.PrivateData.ProgressBackgroundColor = "Black"
+    $Host.PrivateData.ProgressForegroundColor = "White"
+    Clear-Host
 
 # Ask user for input
-$TargetComputer    = Read-Host "Enter Target Computer (press Enter for this computer)"
-$StartingDirectory = Read-Host "Enter Starting Directory (e.g. C:\Users)"
-$OutputFile        = Read-Host "Enter Output File path (e.g. C:\inventory.html)"
+Write-Host "Set parameters, press Enter for default"
+$TargetComputer    = Read-Host "Enter Target Computer name ($env:COMPUTERNAME)"
+$StartingDirectory = Read-Host "Enter Starting Directory (C:\)"
+$OutputFile        = Read-Host "Enter Output File path (.\inventory.html)"
 
 # Set defaults if user pressed Enter
 if ($TargetComputer    -eq "") { $TargetComputer    = $env:COMPUTERNAME }
 if ($StartingDirectory -eq "") { $StartingDirectory = "C:\" }
 if ($OutputFile        -eq "") { $OutputFile        = ".\inventory.html" }
-
+$itemCount
 # Get all files and folders recursively
-Write-Host "Scanning $StartingDirectory ... please wait"
-$Items = Get-ChildItem -Path $StartingDirectory -Recurse -Force -ErrorAction SilentlyContinue
+Write-Host "Scanning $StartingDirectory .. please wait"
+$Items = Get-ChildItem -Path $StartingDirectory -Recurse -Force -ErrorAction SilentlyContinue | ForEach-Object {
+    $itemCount++
+    Write-Host "`rItems found: $itemCount" -NoNewline
+    $_
+}
 
 # Build the HTML rows
 $Rows = ""
+$htmlCounter   = 0
+$totalItems = $Items.Count
+Write-Host "Found $totalItems items. Processing files.." -ForegroundColor Green
+
 foreach ($Item in $Items) {
+$htmlCounter++
+        Write-Progress -Activity "Building file database" `
+                       -Status "Item $htmlCounter of $totalItems" `
+                       -PercentComplete (($htmlCounter / $totalItems) * 100)
 
     # Student Choice CmdLet: Get-Acl - gets the file owner
     $Owner = (Get-Acl -Path $Item.FullName -ErrorAction SilentlyContinue).Owner
@@ -44,7 +68,7 @@ foreach ($Item in $Items) {
         <td>$Attributes</td>
     </tr>`n"
 }
-
+Write-Host "File processing complete. Creating HTML report..." -ForegroundColor Green
 # Build the full HTML page
 $HTML = "
 <html>
@@ -79,4 +103,5 @@ $HTML = "
 
 # Save the file
 $HTML | Out-File -FilePath $OutputFile -Encoding UTF8
-Write-Host "Done! Report saved to: $OutputFile"
+Write-Host "Done! Report saved to: $OutputFile" -ForegroundColor Green
+Pause
