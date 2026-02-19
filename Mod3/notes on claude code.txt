@@ -1,0 +1,9 @@
+- too perfect, the html css even has its own search bar
+- the target computer checks if its a remote host
+- input validation done on user inputs
+- most lines are just making the script look prettier (progress bar for scan, echos for which part of the scan its in)
+- too perfect is understating it
+
+- the purpose of the ai code was to get a concept of how to solve this problem but it just solved the entire thing by itself, minus the student choice cmdlet (?)
+- probably should gut most non essential parts to make it my own
+- relies on System.web for html generation which can sometimes cause an error on modified machines
