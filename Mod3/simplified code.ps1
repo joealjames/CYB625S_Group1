@@ -34,7 +34,7 @@ $Items = Get-ChildItem -LiteralPath $StartingDirectory -Recurse -Force -ErrorAct
 $Rows = ""
 $htmlCounter   = 0
 $totalItems = $Items.Count
-Write-Host "Found $totalItems items. Processing files.." -ForegroundColor Green
+Write-Host "`rFound $totalItems items. Processing files.." -ForegroundColor Green
 
 foreach ($Item in $Items) {
 $htmlCounter++
