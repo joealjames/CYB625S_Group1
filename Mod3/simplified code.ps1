@@ -8,7 +8,7 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     $Host.UI.RawUI.WindowTitle = $myInvocation.MyCommand.Definition + " (Administrator)"
     $Host.UI.RawUI.BackgroundColor = "Black"
 	$Host.PrivateData.ProgressBackgroundColor = "Black"
-    $Host.PrivateData.ProgressForegroundColor = "White"
+    $Host.PrivateData.ProgressForegroundColor = "Yellow"
     Clear-Host
 
 # Ask user for input
@@ -23,7 +23,7 @@ if ($StartingDirectory -eq "") { $StartingDirectory = "C:\" }
 if ($OutputFile        -eq "") { $OutputFile        = ".\inventory.html" }
 $itemCount
 # Get all files and folders recursively
-Write-Host "Scanning $StartingDirectory .. please wait"
+Write-Host "Scanning $StartingDirectory .. please wait" -ForegroundColor Yellow
 $Items = Get-ChildItem -LiteralPath $StartingDirectory -Recurse -Force -ErrorAction SilentlyContinue | ForEach-Object {
     $itemCount++
     Write-Host "`rItems found: $itemCount" -NoNewline
