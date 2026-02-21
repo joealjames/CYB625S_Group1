@@ -24,7 +24,7 @@ if ($OutputFile        -eq "") { $OutputFile        = ".\inventory.html" }
 $itemCount
 # Get all files and folders recursively
 Write-Host "Scanning $StartingDirectory .. please wait"
-$Items = Get-ChildItem -Path $StartingDirectory -Recurse -Force -ErrorAction SilentlyContinue | ForEach-Object {
+$Items = Get-ChildItem -LiteralPath $StartingDirectory -Recurse -Force -ErrorAction SilentlyContinue | ForEach-Object {
     $itemCount++
     Write-Host "`rItems found: $itemCount" -NoNewline
     $_
@@ -43,7 +43,7 @@ $htmlCounter++
                        -PercentComplete (($htmlCounter / $totalItems) * 100)
 
     # Student Choice CmdLet: Get-Acl - gets the file owner
-    $Owner = (Get-Acl -Path $Item.FullName -ErrorAction SilentlyContinue).Owner
+    $Owner = (Get-Acl -LiteralPath $Item.FullName -ErrorAction SilentlyContinue).Owner
 
     # Get only the common attributes
     $Attributes = ""
