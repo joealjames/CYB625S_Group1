@@ -6,7 +6,7 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     Clear-Host
 Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory Private
 Get-NetConnectionProfile #verify
-Enable-PSRemoting
+Enable-PSRemoting -Force
 winrm quickconfig
 $promptMessage = "Are you the listener machine? (Y/N)"
 do {
@@ -17,6 +17,7 @@ if ($response -eq 'y') {
     $RemoteComputer = Read-Host "Enter Target Computer IP:"
     Set-Item WSMan:\localhost\Client\TrustedHosts -Value "$RemoteComputer" -Force
     Get-Item WSMan:\localhost\Client\TrustedHosts #verify
+    winrm enumerate winrm/config/listener
 }
 Write-Host "Successfully enabled Powershelll remoting" -ForegroundColor Green
 pause
