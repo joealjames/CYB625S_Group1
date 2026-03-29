@@ -1,0 +1,6 @@
+1. Make sure you have python installed on your machine properly this can be done by simply typing 'python' (no quotes) in your terminal and getting it from the Windows Store
+The script will automatically install its prerequisites if python is confirmed to be installed.
+2. Select the location of pyExifHash. This is done to avoid hardcoding paths. 
+3. Select whether you are analyzing a file or folder 
+4. Select the file or folder to analyze
+5. Select the location of where your CSV file will save.

@@ -1,3 +1,6 @@
+# Computer File Inventory Prep Script Group 1
+# Mashreef Chowdhury, Brian Fitzgerald, Devanie Gajadar, Joeal James, Wali Sheikh, Oscar Xu
+
 # Run on both remote and listener machine
 # Check if User is Admin, if not attempt to relaunch with Admin perms
 If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator"))
