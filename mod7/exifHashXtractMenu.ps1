@@ -1,8 +1,6 @@
 ﻿# EXIF and Hash PowerShell Menu Group 1
 # Mashreef Chowdhury, Brian Fitzgerald, Devanie Gajadar, Joeal James, Wali Sheikh, Oscar Xu
 
-# Python Executable Definition
-$Python = "python.exe"
 # Check if Python is installed
 Write-Host "1. Checking Python Installation"
 try {
@@ -18,6 +16,10 @@ catch {
     # The 'exit' command terminates the script execution
     exit 1
 }
+
+# Python Executable Definition
+$Python = "python.exe"
+
 
 #Install PILLOW and prettytable modules for Python
 py.exe -m pip install PILLOW
